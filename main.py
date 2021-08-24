@@ -3,8 +3,8 @@ from PIL import ImageTk, Image
 import os
 import glob
 
-# Change this to locate image folder  
-mypath = "/Users/angrandy/Desktop/Tkinter-Python/images/*.*"
+# Locate project and image folder  
+mypath = os.path.dirname(os.path.abspath(__file__)) + "/images/*.*"           
 
 # Sort files in folder by date (Use this to set a fixed number of latest images to display)
 filearray = sorted(glob.glob(mypath), key=os.path.getmtime, reverse=True)  
@@ -19,14 +19,17 @@ root.title('Stringe Sterilizer Image Viewer')
 
 image_list = []
 array_size = 5     # How many images to include (Set to latest 5 images)
-image_size = 500   # Size of the GUI window, set to fit raspberry pi    
+image_size = 500   # Size of the GUI window, set to fit raspberry pi
+screen_height = root.winfo_screenheight()
+screen_width = root.winfo_screenwidth()
 
 for i in range(0,array_size):
-    image_list.append(ImageTk.PhotoImage(Image.open(str(filearray[i]))))  
+    resized_img = ImageTk.PhotoImage(Image.open(str(filearray[i])).resize((screen_width-200, screen_height-200), Image.ANTIALIAS))
+    image_list.append(resized_img)
 
 print(image_list)
 
-img = Label(image=image_list[0], height=image_size, width=image_size)
+img = Label(image=image_list[0])
 img.grid(row=0, column=0, columnspan=3)
 
 def forward(index): # Go to next image    
@@ -36,7 +39,7 @@ def forward(index): # Go to next image
 
     img.grid_forget()
     
-    img = Label(image=image_list[index], height=image_size, width=image_size)
+    img = Label(image=image_list[index])
     btnPrevious = Button(root, text='<', command=lambda: previous(index-1)) 
     
     if index == array_size-1:  
@@ -55,7 +58,7 @@ def previous(index):  # Go to previous image
 
     img.grid_forget()
     
-    img = Label(image=image_list[index], height=image_size, width=image_size)
+    img = Label(image=image_list[index])
     btnNext = Button(root, text=">", command=lambda: forward(index+1))
     
     if index == 0:  
