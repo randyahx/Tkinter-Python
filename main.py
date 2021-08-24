@@ -7,7 +7,7 @@ import glob
 mypath = "/Users/angrandy/Desktop/Tkinter-Python/images/*.*"
 
 # Sort files in folder by date (Use this to set a fixed number of latest images to display)
-filearray = sorted(glob.glob(mypath), key=os.path.getmtime)  
+filearray = sorted(glob.glob(mypath), key=os.path.getmtime, reverse=True)  
 # Get latest file in folder (Use this if only 1 image is required)
 latest_file = max(glob.glob(mypath), key=os.path.getmtime)
 
@@ -55,7 +55,7 @@ def previous(index):  # Go to previous image
 
     img.grid_forget()
     
-    img = Label(image=image_list[index+1], height=image_size, width=image_size)
+    img = Label(image=image_list[index], height=image_size, width=image_size)
     btnNext = Button(root, text=">", command=lambda: forward(index+1))
     
     if index == 0:  
