@@ -23,15 +23,16 @@ def forward(index):
     img.grid_forget()
     
     img = Label(image=image_list[index-1], height=200)
-    btnNext = Button(root, text=">", command=lambda: forward(index+1))
     btnPrevious = Button(root, text='<', command=lambda: previous(index-1)) 
     
     if index == 5:  
         btnNext = Button(root, text='>', state=DISABLED)
+    else:  
+        btnNext = Button(root, text=">", command=lambda: forward(index+1))  
 
     img.grid(row=0, column=0, columnspan=3)
-    btnPrevious.grid(row=1, column=0, columnspan=3)
-    btnNext.grid(row=1, column=2, columnspan=3)
+    btnPrevious.grid(row=1, column=0)
+    btnNext.grid(row=1, column=2)
 
 def previous(index):  
     global img
@@ -42,18 +43,19 @@ def previous(index):
     
     img = Label(image=image_list[index-1], height=200)
     btnNext = Button(root, text=">", command=lambda: forward(index+1))
-    btnPrevious = Button(root, text='<', command=lambda: previous(index-1)) 
     
     if index == 1:  
         btnPrevious = Button(root, text='<', state=DISABLED)
+    else:  
+        btnPrevious = Button(root, text='<', command=lambda: previous(index-1)) 
 
     img.grid(row=0, column=0, columnspan=3)
-    btnPrevious.grid(row=1, column=0, columnspan=3)
-    btnNext.grid(row=1, column=2, columnspan=3)
+    btnPrevious.grid(row=1, column=0)
+    btnNext.grid(row=1, column=2)
 
 btnPrevious = Button(root, text="<", command=previous, state=DISABLED)
-btnNext = Button(root, text=">", command=lambda: forward(2))
 btnExit = Button(root, text="Exit", command=root.quit)
+btnNext = Button(root, text=">", command=lambda: forward(2))
 
 btnPrevious.grid(row=1, column=0)
 btnExit.grid(row=1, column=1)   
